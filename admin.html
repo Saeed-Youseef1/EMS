@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 140px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .navbar h1 {
+            margin: 0;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: white;
+            padding: 10px 20px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .container {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            margin: 20px auto;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #333;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="navbar">
+        <h1>Admin</h1>
+        <button onclick="logout()">Logout</button>
+    </div>
+    <h1 style="text-align: end; padding-right: 140px; font-size: 22px;">عدداللجان: <span id="rowCounter">0</span></h1>
+
+    <div class="container">
+        <div id="tableContainer"></div>
+    </div>
+
+    <script>
+        function logout() {
+            window.location.href = "index.html";
+        }
+
+        // Run this code when the page loads
+        document.addEventListener("DOMContentLoaded", function (event) {
+            // Load the table data from local storage
+            const tableData = JSON.parse(localStorage.getItem("tableData")) || [];
+
+            // Create the table and populate it with the loaded data
+            const tableContainer = document.getElementById("tableContainer");
+            const table = document.createElement("table");
+            table.id = "dataTable";
+            table.classList.add("dataTable");
+            tableContainer.appendChild(table);
+
+            // Create header row
+            const headerRow = table.insertRow();
+            const headers = ["المستوي", "الشعبة", "المقرر", "المكان", "اليوم", "التوقيت"];
+            headers.forEach(headerText => {
+                const header = document.createElement("th");
+                header.textContent = headerText;
+                headerRow.appendChild(header);
+            });
+
+            // Populate table with data
+            tableData.forEach(rowData => {
+                const row = table.insertRow();
+                rowData.forEach(cellData => {
+                    const cell = row.insertCell();
+                    cell.textContent = cellData;
+                });
+            });
+
+            // Update row counter
+            const rowCounter = document.getElementById("rowCounter");
+            rowCounter.textContent = tableData.length-1;
+        });
+    </script>
+</body>
+
+</html>
